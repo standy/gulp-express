@@ -78,10 +78,14 @@ module.exports = (function () {
             }
 
             node = child_process.spawn('node', args, options);
-            node.stdout.setEncoding('utf8');
-            node.stderr.setEncoding('utf8');
-            node.stdout.on('data', listener.logData);
-            node.stderr.on('data', listener.logData);
+			if (node.stdout) {
+				node.stdout.setEncoding('utf8');
+				node.stdout.on('data', listener.logData);
+			}
+			if (node.stderr) {
+				node.stderr.setEncoding('utf8');
+				node.stderr.on('data', listener.logData);
+			}
             node.on('exit', listener.nodeExit);
             process.on('exit', listener.processExit);
 
